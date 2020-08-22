@@ -5,13 +5,7 @@ const app = express();
 
 app.use(express.json());
 
-app.get("/posts", (req, res) => {
-  res.send(posts);
-});
-
-app.post("/events", async (req, res) => {
-  const { type, data } = req.body;
-
+const eventHandler = async (type,data) => {
   switch (type) {
     case "CommentCreated":
       {
@@ -32,10 +26,29 @@ app.post("/events", async (req, res) => {
     default:
       break;
   }
+}
 
+app.get("/posts", (req, res) => {
+  res.send(posts);
+});
+
+
+
+app.post("/events", async (req, res) => {
+  const { type, data } = req.body;
+  eventHandler(type,data)
   res.send({});
 });
 
-app.listen(4003, () => {
+app.listen(4003, async () => {
   console.log("sever listening on port 4003");
+
+  const res = await axios.get("http://localhost:4005/events");
+
+  res.data.forEach(event => {
+    console.log("Processing event " + event.type);
+
+    eventHandler(event.type,event.data)
+  });
+
 });
