@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios'
 
+
 const PostCreate = () => {
   const [title, setTitle] = useState("");
 
@@ -18,7 +19,7 @@ const PostCreate = () => {
         <input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="Last Name"
+          placeholder="Title"
         />
       </div>
       <button type="submit" className="ui button large primary">
