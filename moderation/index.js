@@ -11,7 +11,7 @@ const eventHandler = async (type,data) => {
       {
         let { id, content, postId, status } = data;
         status = data.content.includes('orange')? 'rejected': 'approved';
-        await axios.post("http://localhost:4005/events", {
+        await axios.post("http://event-bus-srv:4005/events", {
           type: 'CommentModerated',
           data: {
             id,
@@ -43,7 +43,7 @@ app.post("/events", async (req, res) => {
 app.listen(4003, async () => {
   console.log("sever listening on port 4003");
 
-  const res = await axios.get("http://localhost:4005/events");
+  const res = await axios.get("http://event-bus-srv:4005/events");
 
   res.data.forEach(event => {
     console.log("Processing event " + event.type);
